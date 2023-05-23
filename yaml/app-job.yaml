@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-job-rsync
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data-disk
+          persistentVolumeClaim:
+            claimName: glow-data-disk-200
+      containers:
+        - name: init
+          image: google/cloud-sdk:alpine
+          command:
+            ["gsutil", "rsync", "-r", "gs://my-bucket/data/", "/data/input"]
+          volumeMounts:
+            - name: data-disk
+              mountPath: /data/input
+      restartPolicy: Never
+  backoffLimit: 0

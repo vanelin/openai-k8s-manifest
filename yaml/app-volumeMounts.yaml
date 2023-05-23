@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-volume
+  namespace: demo
+spec:
+  containers:
+    - name: demo-volume
+      image: gcr.io/kuar-demo/kuard-arm64:1
+      volumeMounts:
+        - name: data
+          mountPath: /data
+  volumes:
+    - name: data
+      emptyDir: {}
